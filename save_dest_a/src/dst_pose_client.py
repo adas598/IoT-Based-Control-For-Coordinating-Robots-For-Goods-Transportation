@@ -20,11 +20,14 @@ def goal_client():
 	goal = move_goalGoal()
 	goal.goal_pose.header.frame_id = "map"
 	
+# 	Gets goal from the queue
 	if queue.empty:
 		arduino_msg = ""
 	else:
 		arduino_msg = queue.get()
 	
+# 	************************************* Start of logic ***************************************
+# 	********************************************************************************************
 	if arduino_msg == "":
 		return 
 	else:
