@@ -108,8 +108,8 @@ void setup() {
 void loop() {
   
   current_time = millis();
-  move_l_motor(w_l*10);
-  move_r_motor(w_r*10);
+  move_l_motor(w_l*25);
+  move_r_motor(w_r*25);
 
   if (current_time - previous_time >= BUFFER_TIME)
   {
