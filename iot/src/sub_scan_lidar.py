@@ -13,7 +13,7 @@ firebaseConfig = {
 firebase = pyrebase.initialize_app(firebaseConfig)
 storage = firebase.storage()
 database = firebase.database()
-database.child("Baggage_Status_Transit").update({"Luggage_A":"Ready To Move"})
+
 
 import rospy
 from iot.msg import custom_msg
@@ -21,7 +21,8 @@ from geometry_msgs.msg import *
 from std_msgs.msg import *
 from sensor_msgs.msg import *
 
-
+expected_time_increment = 0.0
+expected_scan_time = 0.0
 vx = 0.0
 vy = 0.0
 
@@ -39,11 +40,15 @@ def callback_function(message):
     vx = message.time_increment; 
     vy = message.scan_time;
 
-    
+    if (vx >= expected_time_increment) or (vy >= expected_scan_time):
+        upload_to_firebase("Fault Detected")
+    else:
+        upload_to_firebase("Working As Expected")
     rospy.loginfo("time_increment: %f"%vx)
     rospy.loginfo("scan_time: %f"%vy)
     
-
+def upload_to_firebase(message):
+    database.child("Faults").update({"LIdar":message})
             
 if __name__ == "__main__":
     rospy.init_node("sub_to_cmd_vel")
