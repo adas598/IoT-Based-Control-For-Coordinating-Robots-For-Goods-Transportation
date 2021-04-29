@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import pyrebase
 firebaseConfig = {
     "apiKey": "AIzaSyA89kvBNFAz8wgvS297EDB_K_eSsJBXF4I",
