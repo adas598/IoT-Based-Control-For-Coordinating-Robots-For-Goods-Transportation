@@ -28,8 +28,9 @@ def subscriber():
     subcriber_cmd_vel = rospy.Subscriber('cmd_vel', Twist, callback_function)
     sub_rdist = rospy.Subscriber('r_dist', Float32, callback_function_rdist)
     sub_ldist = rospy.Subscriber('l_dist', Float32, callback_function_ldist)
-    motor_status()
-    
+    motor_status() # Wasn't working here last time, thus had to put it in one of the callback functions for rdist/ldist
+                    # although I don't know if we tried after adding return to every function
+    #uploading_status() # Uncomment after figuring out the conditions for the mortor to work properly, these are inside motor_status()
     rospy.loginfo("after motor_status")
     
     rospy.spin()
@@ -46,12 +47,14 @@ def callback_function(message):
     
     rospy.loginfo("vx: %f"%vx)
     rospy.loginfo("az: %f"%az)
+    
     return
 def callback_function_rdist(message):
     rospy.loginfo("inside rdist")
     global r_distance 
     r_distance = message.data
     rospy.loginfo("right %f"%r_distance)
+    
     return    
 def callback_function_ldist(message):
     rospy.loginfo("inside ldist")
@@ -59,6 +62,7 @@ def callback_function_ldist(message):
     l_distance = message.data        
     rospy.loginfo("left %f"%l_distance)
     #motor_status()
+    
     return
 def motor_status():
     rospy.loginfo("inside motor_status")
