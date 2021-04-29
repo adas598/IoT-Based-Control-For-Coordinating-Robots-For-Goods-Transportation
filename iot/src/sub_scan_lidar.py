@@ -21,11 +21,8 @@ from geometry_msgs.msg import *
 from std_msgs.msg import *
 from sensor_msgs.msg import *
 
-expected_time_increment = 0.0
-expected_scan_time = 0.0
-vx = 0.0
-vy = 0.0
-
+unexpected_time_increment = 0.0
+unexpected_scan_time = 0.2
 
 def subscriber():
     subcriber_cmd_vel = rospy.Subscriber('scan', LaserScan, callback_function)
@@ -36,11 +33,13 @@ def subscriber():
     rospy.spin()
 
 def callback_function(message):
-
+    global unexpected_time_increment
+    global unexpected_scan_time
+    
     vx = message.time_increment; 
     vy = message.scan_time;
 
-    if (vx >= expected_time_increment) or (vy >= expected_scan_time):
+    if (vx == unexpected_time_increment) or (expected_scan_time < vy):
         upload_to_firebase("Fault Detected")
     else:
         upload_to_firebase("Working As Expected")
