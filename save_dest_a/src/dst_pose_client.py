@@ -11,6 +11,9 @@ import tf
 
 queue = Queue(maxsize = 50)
 
+def upload_to_firebase(luggage_name,message):
+	database.child("Baggage_Status_Transit").update({luggage_name:message})
+	
 def goal_client():
 	global queue
 	client = actionlib.SimpleActionClient('send_goal',move_goalAction)
@@ -30,6 +33,8 @@ def goal_client():
 # 	************************************* Start of logic ***************************************
 # 	********************************************************************************************
 	if arduino_msg == "":
+		#upload_to_firebase("Luggage_A","Empty")
+		#upload_to_firebase("Luggage_B","Empty") #optional uploads
 		return 
 	else:
 ## ****************************************** FOR A ************************************************	
@@ -60,11 +65,13 @@ def goal_client():
 			
 			# Sends the goal to the action server.
 			client.send_goal(goal)
+			upload_to_firebase("Luggage_A","In Motion")
 			# Waits for the server to finish performing the action.
 			status = client.wait_for_result(rospy.Duration(600.0))
 			
 			if status:
 				rospy.loginfo("ACTION STATUS: Success - Robot reached goal before timeout")
+				upload_to_firebase("Luggage_A","Reached Destination")
 			else:
 				rospy.info("ACTION TIMEOUT: Action did not finish within 10 mins")
 				# Prints out the result of executing the action
@@ -94,11 +101,13 @@ def goal_client():
 
 			# Sends the goal to the action server.
 			client.send_goal(goal)
+			upload_to_firebase("Luggage_B","In Motion")
 			# Waits for the server to finish performing the action.
 			status = client.wait_for_result(rospy.Duration(600.0))
 			
 			if status:
 				rospy.loginfo("ACTION STATUS: Success - Robot reached goal before timeout")
+				upload_to_firebase("Luggage_B","Reached Destination")
 			else:
 				rospy.info("ACTION TIMEOUT: Action did not finish within 10 mins")
 				# Prints out the result of executing the action
@@ -118,9 +127,7 @@ def container_callback_function(msg):
 	global queue
 	queue.put(msg.data)
 	rospy.loginfo("Received: %s"%msg.data)
-
-def upload_to_firebase(luggage_name,message):
-	database.child("Baggage_Status_Transit").update({luggage_name:message})
+	
 if __name__ == '__main__':
 	try:
 		# Initializes a rospy node so that the SimpleActionClient can
