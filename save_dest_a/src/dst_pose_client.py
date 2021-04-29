@@ -74,6 +74,7 @@ def goal_client():
 				upload_to_firebase("Luggage_A","Reached Destination")
 			else:
 				rospy.info("ACTION TIMEOUT: Action did not finish within 10 mins")
+				#upload_to_firebase("Luggage_A","Took Too Long") 
 				# Prints out the result of executing the action
 			return 
 ## ****************************************** FOR B ************************************************
@@ -110,6 +111,7 @@ def goal_client():
 				upload_to_firebase("Luggage_B","Reached Destination")
 			else:
 				rospy.info("ACTION TIMEOUT: Action did not finish within 10 mins")
+				#upload_to_firebase("Luggage_B","Took Too Long")
 				# Prints out the result of executing the action
 			return 
 
