@@ -9,8 +9,8 @@ firebaseConfig = {
     "appId" : "1:540756156225:web:e45d9d4fe770267b820bc0",
     "measurementId" : "G-GB8BKV9R3W"
   };
-firebase = pyrebase.initialize_app(firebaseConfig)
 
+firebase = pyrebase.initialize_app(firebaseConfig)
 storage = firebase.storage()
 database = firebase.database()
 #database.child("Baggage_Status_Transit").update({"Luggage_A":"Ready To Move"})
