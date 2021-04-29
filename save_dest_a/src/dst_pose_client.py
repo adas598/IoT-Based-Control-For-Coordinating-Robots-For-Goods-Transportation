@@ -6,7 +6,7 @@ from save_dest_a.msg import move_goalAction, move_goalGoal, move_goalResult
 import geometry_msgs.msg
 from std_msgs.msg import String
 from queue import Queue
-#from firebase_data import *
+from firebase_data import *
 import tf 
 
 queue = Queue(maxsize = 50)
@@ -34,6 +34,7 @@ def goal_client():
 	else:
 ## ****************************************** FOR A ************************************************	
 		if arduino_msg == "a":
+			upload_to_firebase("Luggage_A","Ready To Move")
 			now = rospy.Time.now()
 			listener.waitForTransform("map", "belt/a", now, rospy.Duration(4.0))
 			(trans,rot) = listener.lookupTransform("map", "belt/a", now)
@@ -70,6 +71,7 @@ def goal_client():
 			return 
 ## ****************************************** FOR B ************************************************
 		if arduino_msg == "b":
+			upload_to_firebase("Luggage_B","Ready To Move")
 			now = rospy.Time.now()
 			listener.waitForTransform("map", "belt/b", now, rospy.Duration(4.0))
 			(trans,rot) = listener.lookupTransform("map", "belt/b", now)
@@ -117,7 +119,8 @@ def container_callback_function(msg):
 	queue.put(msg.data)
 	rospy.loginfo("Received: %s"%msg.data)
 
-
+def upload_to_firebase(luggage_name,message):
+	database.child("Baggage_Status_Transit").update({luggage_name:message})
 if __name__ == '__main__':
 	try:
 		# Initializes a rospy node so that the SimpleActionClient can
