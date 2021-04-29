@@ -13,7 +13,7 @@ firebase = pyrebase.initialize_app(firebaseConfig)
 
 storage = firebase.storage()
 database = firebase.database()
-database.child("Baggage_Status_Transit").update({"Luggage_A":"Ready To Move"})
+#database.child("Baggage_Status_Transit").update({"Luggage_A":"Ready To Move"})
 #data = {"Luggage_A":"Ready To Move","Luggage_B":"In Motion","Unidentified": "Needs Attention"}#,"Motor":"Working As Expected","LIdar":"Working As Expected"}
 #database.set(data)
 
