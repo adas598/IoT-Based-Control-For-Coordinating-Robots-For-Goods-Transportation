@@ -68,6 +68,8 @@ def motor_status():
     rospy.loginfo("inside motor_status")
     global r_distance 
     global l_distance 
+    #global vx
+    #global az
     linear_x = (r_distance+l_distance)/2
     angular_z = (r_distance-l_distance)/0.173
     
