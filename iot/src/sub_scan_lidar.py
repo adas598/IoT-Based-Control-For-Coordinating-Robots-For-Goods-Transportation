@@ -39,7 +39,7 @@ def callback_function(message):
     vx = message.time_increment; 
     vy = message.scan_time;
 
-    if (vx == unexpected_time_increment) or (expected_scan_time < vy):
+    if (vx == unexpected_time_increment) or (unexpected_scan_time < vy):
         upload_to_firebase("Fault Detected")
     else:
         upload_to_firebase("Working As Expected")
