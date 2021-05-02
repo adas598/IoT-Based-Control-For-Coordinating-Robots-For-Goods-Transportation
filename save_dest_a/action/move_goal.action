@@ -1,0 +1,8 @@
+# Define the goal
+geometry_msgs/PoseStamped goal_pose  
+---
+# Define the result
+std_msgs/String current_result
+---
+# Define a feedback message
+geometry_msgs/PoseStamped robot_pose_fb
